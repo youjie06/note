@@ -1,10 +1,15 @@
-import tkinter as tk
+import sys
+from PyQt6.QtWidgets import QApplication, QMainWindow
+from notewindowui import Ui_MainWindow
 
-#!視窗設定
-win = tk.Tk()       #建立主視窗
-win.title("Note")   #視窗標題
-win.geometry('1024x768') #設定視窗長寬('寬x長') > x小寫英文
-win.minsize(width=1024,height=768)#設定視窗範圍最小值
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.ui = Ui_MainWindow()
+        self.ui.setupUi(self)
 
-
-win.mainloop()      #常駐主視窗
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = MainWindow()
+    window.show()
+    sys.exit(app.exec())
