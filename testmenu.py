@@ -6,9 +6,9 @@ def toggle_menu():
     else:
         menu_frame.grid(row=1, column=0, sticky="ew")
 
-def option_selected(option):
-    print("Option selected:", option)
-    # 在這裡執行您希望的操作
+# def option_selected(option):
+#     print("Option selected:", option)
+#     # 在這裡執行您希望的操作
 
 # 創建主視窗
 root = tk.Tk()
@@ -28,7 +28,7 @@ menu_frame = tk.Frame(main_frame)
 # 創建選項按鈕
 options = ["Option 1", "Option 2", "Option 3"]  # 可以根據需要添加更多選項
 for i, option in enumerate(options):
-    option_button = tk.Button(menu_frame, text=option, command=lambda opt=option: option_selected(opt))
+    option_button = tk.Button(menu_frame, text=option)
     option_button.grid(row=i, column=0, sticky="ew")
 
 root.mainloop()

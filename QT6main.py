@@ -1,6 +1,6 @@
 import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow
-from testcldui import Ui_MainWindow
+from testmenu import Ui_MainWindow
 
 class MainWindow(QMainWindow):
     def __init__(self):
