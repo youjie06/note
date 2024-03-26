@@ -22,7 +22,7 @@ class CalendarApp:
 
     def create_widgets(self):
         # 創建主要布局
-        main_frame = tk.Frame(self.frame, bg="white")  # 創建一個白色背景的框架
+        main_frame = tk.Frame(self.frame,bg="gray",bd=1)  # 創建一個白色背景的框架
         main_frame.pack(padx=10, pady=10)  # 將框架放置到主視窗中，並設置內邊距
 
         # 年份和月份布局
@@ -44,13 +44,13 @@ class CalendarApp:
         self.month_spinbox.grid(row=0, column=3, padx=5, pady=5)  # 將月份控件放置到年份和月份框架中，設置在第一行第四列，設置左右邊距，設置上下邊距
 
         # 創建星期標籤和日期網格的佈局
-        self.calendar_frame = tk.Frame(main_frame, bg="white")  # 在主框架中創建一個白色背景的
+        self.calendar_frame = tk.Frame(main_frame, bg="gray")  # 在主框架中創建一個白色背景的
         self.calendar_frame.grid(row=1, column=0, columnspan=7)  # 將日曆框架放置到主框架中，設置在第二行，跨越7列
 
         # 創建星期標籤
         weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']  # 定義星期的標籤列表
         for i, day in enumerate(weekdays):  # 遍歷星期標籤列表
-            label = tk.Label(self.calendar_frame, text=day, bg="white")  # 創建一個白色背景的標籤，顯示星期名稱
+            label = tk.Label(self.calendar_frame, text=day, bg="gray")  # 創建一個白色背景的標籤，顯示星期名稱
             label.grid(row=0, column=i, padx=0, pady=0)  # 將星期標籤放置到日曆框架中，設置在第一行，第i列，設置左右邊距，設置上下邊距
 
         # 創建日期網格
@@ -126,7 +126,7 @@ class CalendarApp:
         # 創建星期標籤
         weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']  # 定義一個星期列表
         for i, day in enumerate(weekdays):
-            label = tk.Label(self.calendar_frame, text=day, bg="white")  # 在日曆框架中創建一個白色背景的標籤，顯示星期名稱
+            label = tk.Label(self.calendar_frame, text=day, bg="gray")  # 在日曆框架中創建一個白色背景的標籤，顯示星期名稱
             label.grid(row=0, column=i, padx=0, pady=0)  # 將星期標籤放置到日曆框架中，設置在第一行，依次排列，設置左右邊距，設置上下邊距
 
         # 創建日期網格
