@@ -1,6 +1,6 @@
-import tkinter as tk
-from PIL import Image, ImageTk
-from notecalendarFM import CalendarApp
+import tkinter as tk    #pip install tk
+from PIL import Image, ImageTk  #pip install pillow
+from notecalendarFM import CalendarFM
 
 class NoteApp:
     def __init__(self, root):
@@ -16,7 +16,7 @@ class NoteApp:
         # Content Frame
         self.content_frame = tk.Frame(self.root, bd=1, bg="#ffffff")
         self.content_frame.place(x=50, y=0, width=850, height=768)
-        self.calendar_app = CalendarApp(self.content_frame)
+        self.calendar_app = CalendarFM(self.content_frame)
 
         # Information Frame
         self.information_frame = tk.Frame(self.root, bg="lightgreen")
@@ -87,4 +87,3 @@ if __name__ == "__main__":
     root = tk.Tk()
     app = NoteApp(root)
     root.mainloop()
-

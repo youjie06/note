@@ -2,7 +2,7 @@ import calendar  # 導入calendar模塊，用於處理日曆相關功能
 import tkinter as tk  # 導入tkinter模塊，用於構建GUI介面
 from datetime import datetime, timedelta  # 導入datetime模塊，用於處理日期和時間
 
-class CalendarApp:
+class CalendarFM:
     def __init__(self, parent):
         self.parent = parent
         self.frame = tk.Frame(self.parent, bg="white")
