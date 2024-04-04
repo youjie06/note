@@ -95,12 +95,12 @@ class CalendarFM:
             row_labels = []  # 初始化每行的標籤列表
             for j in range(7):
                 if mycalendar[i][j] != 0:#列內的有效日期不等於零
-                    cell_label = tk.Button(frame, text=mycalendar[i][j], bg="#3f4145", fg="#ffffff", relief="ridge", width=6, height=2, borderwidth=1)  # 創建一個白色背景的標籤，顯示該日期，設置邊框樣式
+                    cell_label = tk.Button(frame, text=mycalendar[i][j], bg="#3f4145", fg="#ffffff", activebackground="#4c4e52", activeforeground="#ffffff", relief="ridge", width=6, height=2, bd=1)  # 創建一個白色背景的標籤，顯示該日期，設置邊框樣式
                     cell_label.grid(row=i+1, column=j, padx=0, pady=0)  # 將日期標籤放置到日曆框架中的指定位置，設置左右邊距，設置上下邊距
                     row_labels.append(cell_label)  # 將日期標籤添加到該行的標籤列表中
                 else:#列內的有效日期日期等於零
                     if mycalendar[i][7]!=7:#列內的有效日期不等於七
-                        cell_label = tk.Button(frame, text="", bg="#3f4145", fg="#ffffff", relief="ridge", width=6, height=2, borderwidth=1)  # 創建一個白色背景的標籤，不顯示任何內容，設置邊框樣式
+                        cell_label = tk.Button(frame, text="", bg="#3f4145", fg="#ffffff", activebackground="#4c4e52", activeforeground="#ffffff", relief="ridge", width=6, height=2, bd=1)  # 創建一個白色背景的標籤，不顯示任何內容，設置邊框樣式
                         cell_label.grid(row=i+1, column=j, padx=0, pady=0)  # 將日期標籤放置到日曆框架中的指定位置，設置左右邊距，設置上下邊距
                         row_labels.append(cell_label)  # 將日期標籤添加到該行的標籤列表中
                 j+=1
@@ -109,13 +109,7 @@ class CalendarFM:
         self.calendar_grid.append(row_labels)  # 將該行的標籤列表添加到日期網格列表中
         # 顯示月曆
 
-    def update_calendar(self):
-        # 更新日期網格
-        # for row in self.calendar_grid:  # 遍歷日期網格列表的每一行
-        #     for label in row:  # 遍歷每一行中的標籤
-    
-        #         label.destroy()  # 刪除標籤
-        
+    def update_calendar(self):  # 更新日期網格
         for row in self.calendar_grid:  # 遍歷日期網格列表的每一行
             for button in row:  # 遍歷每一行中的標籤
                 button.destroy()
@@ -127,17 +121,7 @@ class CalendarFM:
             label.grid(row=0, column=i, padx=0, pady=0)  # 將星期標籤放置到日曆框架中，設置在第一行，依次排列，設置左右邊距，設置上下邊距
 
         # 創建日期網格
-        
         self.calendar_grid = []  # 初始化日期網格列表
         calendar_frame = self.calendar_frame  # 獲取日曆框架
         self.create_calendar_grid(calendar_frame)  # 創建日期網格，並放置到日曆框架中
         calendar_frame.grid(row=1, column=0, columnspan=7)  # 將日曆框架放置到主框架中，設置在第二行，跨越7列self.frame.pack(fill=tk.BOTH, expand=True)
-        
-
-# def main():
-#     root = tk.Tk()  # 創建主視窗
-#     app = CalendarApp(root)  #
-#     root.mainloop()  # 進入主事件循環，等待用戶交互操作
-
-# if __name__ == "__main__":
-#     main()
