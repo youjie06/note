@@ -1,8 +1,8 @@
 import tkinter as tk    #pip install tk
 from PIL import Image, ImageTk  #pip install pillow
 from notecalendarFM import CalendarFM
-from notetodo import Todo
-from notetext import TextEditor
+from notetodoFM import Todo
+from notetextFM import TextEditor
 
 class NoteApp:
     def __init__(self, root):
@@ -11,9 +11,16 @@ class NoteApp:
         self.root.geometry("1200x768")
         self.menu_expanded = False
         self.mode_day = True
+        
+        #color
+        self.white="#ffffff"
+        self.black="#000000"
+        self.darkBG1="#2d2f32"
+        self.darkBG2="#3f4145"
+        #self.lightBG=""
       
         # Menu Frame
-        self.menu_frame = tk.Frame(self.root, bd=2, bg="#2d2f32")
+        self.menu_frame = tk.Frame(self.root, bd=2, bg=self.darkBG1)
         self.menu_frame.place(x=0, y=0, width=50, height=700)
         
         #Setting frame
@@ -21,21 +28,27 @@ class NoteApp:
         self.setting_nighticon_path = "icon/moon.png"
         self.setting_dayicon = self.resize_image(self.setting_dayicon_path, 20, 20)
         self.setting_nighticon = self.resize_image(self.setting_nighticon_path, 20, 20)
-        self.set_frame = tk.Frame(self.root, bd=1, bg="#2d2f32")
+        self.set_frame = tk.Frame(self.root, bd=1, bg=self.darkBG1)
         self.set_frame.place(x=0, y=700, width=50, height=68)
-        self.mode_button = tk.Button(self.set_frame, cursor="hand2", bd=1, fg="#000000", bg="#ffffff", image=self.setting_dayicon, command=self.toggle_mode)
+        self.mode_button = tk.Button(self.set_frame, cursor="hand2", bd=1, fg=self.black, bg=self.white, image=self.setting_dayicon, command=self.toggle_mode)
         self.mode_button.place(x=7, y=0, width=32, height=40)
         
         
         # Content Frame
-        self.content_frame = tk.Frame(self.root, bd=1, bg="#3f4145")
+        self.content_frame = tk.Frame(self.root, bd=1, bg=self.darkBG2)
         self.content_frame.place(x=50, y=0, width=850, height=768)
         self.calendar_app = CalendarFM(self.content_frame)
         
         # Information Frame
-        self.information_frame = tk.Frame(self.root, bd=2, bg="#2d2f32")
+        self.information_frame = tk.Frame(self.root, bd=2, bg=self.darkBG1)
         self.information_frame.place(x=900, y=0, width=300, height=768)
-
+        self.todo_frame = tk.Frame(self.information_frame, bd=1, bg=self.darkBG1)
+        self.todo_frame.place(x=0, y=0, width=300, height=384)
+        # self.todo_app = Todo(self.todo_frame)
+        self.text_frame = tk.Frame(self.information_frame, bd=1, bg=self.darkBG1)
+        self.text_frame.place(x=0, y=384, width=300, height=384)
+        #self.text_app = TextEditor(self.text_frame)
+        
         # Icon location
         self.button_info = [("icon/daily-calendar (1).png", " 日歷　 "), ("icon/edit.png", " 記事本 "),
                             ("icon/list-check.png", " 備忘錄 ")]
@@ -47,7 +60,7 @@ class NoteApp:
 
         # Menu Button
         self.menu_icon = self.resize_image(self.menu_icon_path, 20, 20)
-        self.menu_btn = tk.Button(self.menu_frame, fg="#000000", image=self.menu_icon, bd=0, cursor="hand2", command=self.toggle_menu)
+        self.menu_btn = tk.Button(self.menu_frame, fg=self.black, image=self.menu_icon, bd=0, cursor="hand2", command=self.toggle_menu)
         self.menu_btn.image = self.menu_icon
         self.menu_btn.place(x=7, y=7, width=32, height=32)
 # 
@@ -59,7 +72,7 @@ class NoteApp:
     def create_menu_buttons_closed(self):#menu closed
         for i, (icon_path, button_text) in enumerate(self.button_info):
             button_icon = self.resize_image(icon_path, 20, 20)
-            button = tk.Button(self.menu_frame, image=button_icon, fg="#000000", bd=0,
+            button = tk.Button(self.menu_frame, image=button_icon, fg=self.black, bd=0,
                                cursor="hand2", command=lambda text=button_text: self.show_info(text))
             button.image = button_icon
             button.place(x=7, y=(i + 1) * 40 + 7, width=32, height=32)
@@ -71,7 +84,7 @@ class NoteApp:
     def create_menu_buttons_expanded(self):#menu expanded
         for i, (icon_path, button_text) in enumerate(self.button_info):
             button_icon = self.resize_image(icon_path, 20, 20)
-            button = tk.Button(self.menu_frame, text=button_text, fg="#000000", bd=0, compound=tk.LEFT, font=('宋體', 11 , 'bold'),
+            button = tk.Button(self.menu_frame, text=button_text, fg=self.black, bd=0, compound=tk.LEFT, font=('宋體', 11 , 'bold'),
                                cursor="hand2", image=button_icon, command=lambda text=button_text: self.show_info(text))
             button.image = button_icon
             button.place(x=7, y=(i + 1) * 40 + 7, width=90, height=32)
