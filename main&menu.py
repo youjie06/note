@@ -1,6 +1,8 @@
 import tkinter as tk    #pip install tk
 from PIL import Image, ImageTk  #pip install pillow
 from notecalendarFM import CalendarFM
+from notetodo import Todo
+from notetext import TextEditor
 
 class NoteApp:
     def __init__(self, root):
