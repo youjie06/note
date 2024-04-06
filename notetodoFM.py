@@ -6,7 +6,8 @@ from threading import Thread
 from tkcalendar import DateEntry
 
 class Todo:
-    def __init__(self):
+    def __init__(self, root):
+        self.root = root
         self.root = tkinter.Tk()
         self.root.configure(bg="#F0F0F0")
         self.root.title("待辦事項")

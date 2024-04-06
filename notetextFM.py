@@ -1,9 +1,12 @@
 from tkinter import *
 from tkinter.ttk import *
 from tkinter import font, colorchooser
+from PIL import Image, ImageTk
 
 class TextEditor:
-    def __init__(self):
+    def __init__(self, root, text_frame):
+        self.root = root
+        self.text_frame = text_frame
         self.fontSize = 12
         self.fontStyle = 'Arial'
 
@@ -84,36 +87,43 @@ class TextEditor:
         fontfamily_Combobox.bind('<<ComboboxSelected>>', font_style)
         font_size_Combobox.bind('<<ComboboxSelected>>', font_size)
 
-        apply_font_sizeImage = PhotoImage(file='icon/tick.png')
-        apply_font_size_button = Button(tool_bar, image=apply_font_sizeImage, command=font_size)
-        apply_font_size_button.grid(row=0, column=2, padx=5)
+        # apply_font_sizeImage = PhotoImage(file='icon/tick.png')
+        # apply_font_size_button = Button(tool_bar, image=apply_font_sizeImage, command=font_size)
+        # apply_font_size_button.grid(row=0, column=2, padx=5)
 
-        boldImage = PhotoImage(file='icon/bold.png')
-        boldButton = Button(tool_bar, image=boldImage, command=bold_text)
+        bold_image = Image.open('icon/bold.png')
+        self.bold_icon = ImageTk.PhotoImage(bold_image)
+        boldButton = Button(tool_bar, image=self.bold_icon, command=bold_text)
         boldButton.grid(row=0, column=3, padx=5)
 
-        italicImage = PhotoImage(file='icon/italic.png')
-        italicButton = Button(tool_bar, image=italicImage, command=italic_text)
+        italic_image = Image.open('icon/italic.png')
+        self.italic_icon = ImageTk.PhotoImage(italic_image)
+        italicButton = Button(tool_bar, image=self.italic_icon, command=italic_text)
         italicButton.grid(row=0, column=4, padx=5)
 
-        underlineImage = PhotoImage(file='icon/underline.png')
-        underlineButton = Button(tool_bar, image=underlineImage, command=underline_text)
+        underline_image = Image.open('icon/underline.png')
+        self.underline_icon = ImageTk.PhotoImage(underline_image)
+        underlineButton = Button(tool_bar, image=self.underline_icon, command=underline_text)
         underlineButton.grid(row=0, column=5, padx=5)
 
-        fontColorImage = PhotoImage(file='icon/font_Color.png')
-        fontColorButton = Button(tool_bar, image=fontColorImage, command=color_select)
+        font_color_image = Image.open('icon/font_Color.png')
+        self.font_color_icon = ImageTk.PhotoImage(font_color_image)
+        fontColorButton = Button(tool_bar, image=self.font_color_icon, command=color_select)
         fontColorButton.grid(row=0, column=6, padx=5)
 
-        leftAlignImage = PhotoImage(file='icon/left.png')
-        leftAlignButton = Button(tool_bar, image=leftAlignImage, command=align_left)
+        left_align_image = Image.open('icon/left.png')
+        self.left_align_icon = ImageTk.PhotoImage(left_align_image)
+        leftAlignButton = Button(tool_bar, image=self.left_align_icon, command=align_left)
         leftAlignButton.grid(row=0, column=7, padx=5)
 
-        rightAlignImage = PhotoImage(file='icon/right.png')
-        rightAlignButton = Button(tool_bar, image=rightAlignImage, command=align_right)
+        right_align_image = Image.open('icon/right.png')
+        self.right_align_icon = ImageTk.PhotoImage(right_align_image)
+        rightAlignButton = Button(tool_bar, image=self.right_align_icon, command=align_right)
         rightAlignButton.grid(row=0, column=8, padx=5)
 
-        centerAlignImage = PhotoImage(file='icon/center.png')
-        centerAlignButton = Button(tool_bar, image=centerAlignImage, command=align_center)
+        center_align_image = Image.open('icon/center.png')
+        self.center_align_icon = ImageTk.PhotoImage(center_align_image) 
+        centerAlignButton = Button(tool_bar, image=self.center_align_icon, command=align_center)
         centerAlignButton.grid(row=0, column=9, padx=5)
 
         labelframe = LabelFrame(root, width=400, height=150, text='內容')

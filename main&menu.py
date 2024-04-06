@@ -9,8 +9,10 @@ class NoteApp:
         self.root = root
         self.root.title("Note")
         self.root.geometry("1200x768")
+        root.resizable(False, False)
         self.menu_expanded = False
         self.mode_day = True
+        
         
         #color
         self.white="#ffffff"
@@ -47,11 +49,13 @@ class NoteApp:
         # self.todo_app = Todo(self.todo_frame)
         self.text_frame = tk.Frame(self.information_frame, bd=1, bg=self.darkBG1)
         self.text_frame.place(x=0, y=384, width=300, height=384)
-        #self.text_app = TextEditor(self.text_frame)
+        # self.text_app = TextEditor(self.text_frame)
         
         # Icon location
-        self.button_info = [("icon/daily-calendar (1).png", " 日歷　 "), ("icon/edit.png", " 記事本 "),
-                            ("icon/list-check.png", " 備忘錄 ")]
+        # self.button_info = [("icon/daily-calendar (1).png", "calender"), ("icon/edit.png", "text"),
+        #             ("icon/list-check.png", "todo")]
+        self.button_info = [("icon/daily-calendar (1).png", "日歷　"), ("icon/edit.png", "記事本"),
+                            ("icon/list-check.png", "備忘錄")]
         
         self.menu_icon_path = "icon/menu-burger.png"
         
@@ -73,7 +77,7 @@ class NoteApp:
         for i, (icon_path, button_text) in enumerate(self.button_info):
             button_icon = self.resize_image(icon_path, 20, 20)
             button = tk.Button(self.menu_frame, image=button_icon, fg=self.black, bd=0,
-                               cursor="hand2", command=lambda text=button_text: self.show_info(text))
+                               cursor="hand2", command=self.menubtn_check(button_text))
             button.image = button_icon
             button.place(x=7, y=(i + 1) * 40 + 7, width=32, height=32)
             self.menu_buttons.append(button)
@@ -85,13 +89,13 @@ class NoteApp:
         for i, (icon_path, button_text) in enumerate(self.button_info):
             button_icon = self.resize_image(icon_path, 20, 20)
             button = tk.Button(self.menu_frame, text=button_text, fg=self.black, bd=0, compound=tk.LEFT, font=('宋體', 11 , 'bold'),
-                               cursor="hand2", image=button_icon, command=lambda text=button_text: self.show_info(text))
+                               cursor="hand2", image=button_icon, command=self.menubtn_check(button_text))
             button.image = button_icon
             button.place(x=7, y=(i + 1) * 40 + 7, width=90, height=32)
             self.menu_buttons.append(button)
         self.mode_button.config(text=" 亮色模式", compound=tk.LEFT, font=('宋體', 11 , 'bold'))
         self.mode_button.place(x=7, y=0, width=100, height=32)
-        
+        #command=lambda text=button_text: self.show_info(text)
         # if self.mode_day:
         #     self.mode_button.config(text="亮色模式", compound=tk.LEFT, font=('宋體', 11 , 'bold'))
         #     self.mode_day = True
@@ -137,6 +141,17 @@ class NoteApp:
         image = image.resize((width, height), Image.LANCZOS)
         return ImageTk.PhotoImage(image)
 # 
+    def menubtn_check(self, btn_click):
+    #     #self.content_frame
+        for widget in self.content_frame.winfo_children():
+            widget.pack_forget()
+    #     if btn_click == "calender":
+    #         self.calendar_app = CalendarFM(self.content_frame)
+    #     elif btn_click == "text":
+    #         self.text_app = TextEditor(self.root,self.text_frame)
+    #     else:
+    #         self.todo_app = Todo(self.todo_frame)
+        
 if __name__ == "__main__":
     root = tk.Tk()
     app = NoteApp(root)
