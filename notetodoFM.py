@@ -9,9 +9,9 @@ class Todo:
     def __init__(self, root):
         self.root = root
         self.root = tkinter.Tk()
-        self.root.configure(bg="#F0F0F0")
-        self.root.title("待辦事項")
-        self.root.geometry("800x600")
+        # self.root.configure(bg="#F0F0F0")
+        # self.root.title("待辦事項")
+        # self.root.geometry("800x600")
 
         self.tasks = []
         self.reminders = []
