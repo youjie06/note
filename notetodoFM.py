@@ -8,11 +8,6 @@ from tkcalendar import DateEntry
 class Todo:
     def __init__(self, root):
         self.root = root
-        self.root = tkinter.Tk()
-        # self.root.configure(bg="#F0F0F0")
-        # self.root.title("待辦事項")
-        # self.root.geometry("800x600")
-
         self.tasks = []
         self.reminders = []
 
@@ -80,10 +75,6 @@ class Todo:
         # Label to display reminders
         self.lbl_display = tkinter.Label(self.root, text="", bg="red", fg="white", font=("Arial", 16))  # 更改文字顏色為白字
         self.lbl_display.pack(pady=5, fill="x")
-
-        # Button to exit the application
-        self.btn_exit = tkinter.Button(self.root, text="關閉", fg="white", bg="#546E7A", command=self.exit)
-        self.btn_exit.pack(pady=5, padx=10, fill="x")
 
         #self.root.mainloop()
 
@@ -165,10 +156,6 @@ class Todo:
                     print(f"注意事項 '{task}'!")
                     self.reminders.remove(reminder)
             time.sleep(1)
-
-    # Function to close the application
-    def exit(self):
-        self.root.destroy()
 
 # Create an instance of the Todo class to run the application
 #todo_app = Todo()

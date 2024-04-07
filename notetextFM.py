@@ -56,10 +56,6 @@ class TextEditor:
             self.text_input.tag_config('center', justify=CENTER)
             self.text_input.tag_add('center', '1.0', END)
 
-        # self.root.title("備忘錄")
-        # self.root.geometry("1200x620+10+10")
-        # self.root.resizable(False, False)
-
         self.labelframe = LabelFrame(root, width=400, height=50, text='標題')
         self.labelframe.pack(padx=10, pady=10)
         self.input_font = ("Helvetica", 20)

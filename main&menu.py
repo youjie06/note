@@ -52,8 +52,15 @@ class NoteApp:
         # self.text_app = TextEditor(self.text_frame)
         
         # Icon location
-        self.button_info = [("icon/daily-calendar (1).png", "calender"), ("icon/edit.png", "text"),
-                     ("icon/list-check.png", "todo")]
+        self.calender_icon_path = Image.open("icon/daily-calendar (1).png").resize((20, 20))
+        self.calender_icon = ImageTk.PhotoImage(self.calender_icon_path)
+        self.text_icon_path = Image.open("icon/edit.png").resize((20, 20))
+        self.text_icon = ImageTk.PhotoImage(self.text_icon_path)
+        self.todo_icon_path = Image.open("icon/list-check.png").resize((20, 20))
+        self.todo_icon = ImageTk.PhotoImage(self.todo_icon_path)
+        
+        # self.button_info = [("icon/daily-calendar (1).png", "calender"), ("icon/edit.png", "text"),
+        #              ("icon/list-check.png", "todo")]
         #self.button_info = [("icon/daily-calendar (1).png", "日歷　", "calender"), ("icon/edit.png", "記事本", "text"),
         #                    ("icon/list-check.png", "備忘錄", "todo")]
         
@@ -74,27 +81,56 @@ class NoteApp:
         button_func()
 # 
     def create_menu_buttons_closed(self):#menu closed
-        for i, (icon_path, button_text) in enumerate(self.button_info):
-            button_icon = self.resize_image(icon_path, 20, 20)
-            button = tk.Button(self.menu_frame, image=button_icon, fg=self.black, bd=0,
-                               cursor="hand2")
-            button.image = button_icon
-            button.place(x=7, y=(i + 1) * 40 + 7, width=32, height=32)
-            self.menu_buttons.append(button)
+        # Create buttons individually
+        #self.calender_icon_path = self.resize_image(self.calender_icon_path, 20, 20)
+        self.calender_btn = tk.Button(self.menu_frame, image=self.calender_icon, fg=self.black, bd=0, cursor="hand2",command=self.calendar_click)
+        self.calender_btn.image = self.calender_icon_path
+        self.calender_btn.place(x=7, y=47, width=32, height=32)
+        self.menu_buttons.append(self.calender_btn)
+
+        #self.text_icon_path = self.resize_image(self.text_icon_path, 20, 20)
+        self.text_btn = tk.Button(self.menu_frame, image=self.text_icon, fg=self.black, bd=0, cursor="hand2",command=self.text_click)
+        self.text_btn.image = self.text_icon_path
+        self.text_btn.place(x=7, y=87, width=32, height=32)
+        self.menu_buttons.append(self.text_btn)
+
+        #self.todo_icon_path = self.resize_image(self.todo_icon_path, 20, 20)
+        self.todo_btn = tk.Button(self.menu_frame, image=self.todo_icon, fg=self.black, bd=0, cursor="hand2",command=self.todo_click)
+        self.todo_btn.image = self.todo_icon_path
+        self.todo_btn.place(x=7, y=127, width=32, height=32)
+        self.menu_buttons.append(self.todo_btn)
+
         self.mode_button.config(text="")
-        self.mode_button.place(x=7, y=0, width=32, height=32)
-        # , command=self.menubtn_click(button_text)
+        self.mode_button.place(x=7, y=7, width=32, height=32)
 # 
     def create_menu_buttons_expanded(self):#menu expanded
-        for i, (icon_path, button_text) in enumerate(self.button_info):
-            # , command=self.menubtn_click(button_text)
-            button_icon = self.resize_image(icon_path, 20, 20)
-            button = tk.Button(self.menu_frame, text=button_text, fg=self.black, bd=0, compound=tk.LEFT, font=('宋體', 11 , 'bold'),
-                               cursor="hand2", image=button_icon)
-            button.image = button_icon
-            button.place(x=7, y=(i + 1) * 40 + 7, width=90, height=32)
-            self.menu_buttons.append(button)
-            button.config(command=self.menubtn_click(button_text))
+        #self.calender_icon_path = self.resize_image(self.calender_icon_path, 20, 20)
+        self.calender_btn = tk.Button(self.menu_frame, text=" 日歷　", compound=tk.LEFT, font=('宋體', 11 , 'bold'), image=self.calender_icon, fg=self.black, bd=0, cursor="hand2",command=self.calendar_click)
+        self.calender_btn.image = self.calender_icon_path
+        self.calender_btn.place(x=7, y=47, width=90, height=32)
+        self.menu_buttons.append(self.calender_btn)
+
+        #self.text_icon_path = self.resize_image(self.text_icon_path, 20, 20)
+        self.text_btn = tk.Button(self.menu_frame, text=" 記事本", compound=tk.LEFT, font=('宋體', 11 , 'bold'), image=self.text_icon, fg=self.black, bd=0, cursor="hand2",command=self.text_click)
+        self.text_btn.image = self.text_icon_path
+        self.text_btn.place(x=7, y=87, width=90, height=32)
+        self.menu_buttons.append(self.text_btn)
+
+        #self.todo_icon_path = self.resize_image(self.todo_icon_path, 20, 20)
+        self.todo_btn = tk.Button(self.menu_frame, text=" 備忘錄", compound=tk.LEFT, font=('宋體', 11 , 'bold'), image=self.todo_icon, fg=self.black, bd=0, cursor="hand2",command=self.todo_click)
+        self.todo_btn.image = self.todo_icon_path
+        self.todo_btn.place(x=7, y=127, width=90, height=32)
+        self.menu_buttons.append(self.todo_btn)
+
+        # for i, (icon_path, button_text) in enumerate(self.button_info):
+        #     # , command=self.menubtn_click(button_text)
+        #     button_icon = self.resize_image(icon_path, 20, 20)
+        #     button = tk.Button(self.menu_frame, fg=self.black, bd=0, text=button_text, compound=tk.LEFT, font=('宋體', 11 , 'bold'),
+        #                        cursor="hand2", image=button_icon)
+        #     button.image = button_icon
+        #     button.place(x=7, y=(i + 1) * 40 + 7, width=90, height=32)
+        #     self.menu_buttons.append(button)
+        #     button.config(command=self.menubtn_click(button_text))
         
         self.mode_button.config(text=" 亮色模式", compound=tk.LEFT, font=('宋體', 11 , 'bold'))
         self.mode_button.place(x=7, y=0, width=100, height=32)
@@ -144,17 +180,21 @@ class NoteApp:
         image = image.resize((width, height), Image.LANCZOS)
         return ImageTk.PhotoImage(image)
 # 
-    def menubtn_click(self, btn_click):
-        print(1)
-    #     #self.content_frame
+    def calendar_click(self):
+        for widget in self.content_frame.winfo_children():
+            widget.destroy()          
+        self.calendar_app = CalendarFM(self.content_frame)
+    
+    def text_click(self):    
         for widget in self.content_frame.winfo_children():
             widget.destroy()
-        if btn_click == "calender":
-            self.calendar_app = CalendarFM(self.content_frame)
-        elif btn_click == "text":
-            self.todo_app = Todo(self.content_frame)
-        # else:
-            # self.text_app = TextEditor(self.content_frame)
+        self.text_app = TextEditor(self.content_frame)
+    
+    def todo_click(self):
+        for widget in self.content_frame.winfo_children():
+            widget.destroy()
+        self.todo_app = Todo(self.content_frame)
+    
 if __name__ == "__main__":
     root = tk.Tk()
     app = NoteApp(root)

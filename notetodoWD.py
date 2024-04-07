@@ -77,8 +77,8 @@ class Todo:
         self.btn_delete_one.pack(pady=5, padx=10, fill="x")
 
         # Label to display reminders
-        self.lbl_display = tkinter.Label(self.root, text="", bg="red", fg="white", font=("Arial", 16))  # 更改文字顏色為白字
-        self.lbl_display.pack(pady=5, fill="x")
+        # self.lbl_display = tkinter.Label(self.root, text="", bg="red", fg="white", font=("Arial", 16))  # 更改文字顏色為白字
+        # self.lbl_display.pack(pady=5, fill="x")
 
         # Button to exit the application
         self.btn_exit = tkinter.Button(self.root, text="關閉", fg="white", bg="#546E7A", command=self.exit)
