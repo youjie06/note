@@ -11,8 +11,14 @@ class Todo:
         self.tasks = []
         self.reminders = []
 
+        #color
+        self.white="#ffffff"
+        self.black="#000000"
+        self.darkBG1="#2d2f32"
+        self.darkBG2="#3f4145"
+        
         # Frame for the input section
-        self.input_frame = tkinter.Frame(self.root, bg="#F0F0F0")
+        self.input_frame = tkinter.Frame(self.root, bg=self.darkBG2)
         self.input_frame.pack(pady=10, padx=10, fill="x")
 
         # Entry field to add tasks
@@ -28,21 +34,21 @@ class Todo:
         self.btn_del_all.pack(side="left", padx=5)
 
         # Frame for time selection
-        self.time_frame = tkinter.Frame(self.root, bg="#F0F0F0")
+        self.time_frame = tkinter.Frame(self.root, bg=self.darkBG2)
         self.time_frame.pack(pady=5, padx=10, fill="x")
 
         # Labels and Spinboxes for time selection
-        tkinter.Label(self.time_frame, text="時間:", bg="#F0F0F0").pack(side="left")
+        tkinter.Label(self.time_frame, text="時間:",fg= self.white, bg=self.darkBG2, font=(12)).pack(side="left")
         self.hour_spinbox = tkinter.Spinbox(self.time_frame, from_=1, to=12, width=2)
         self.hour_spinbox.pack(side="left", padx=5)
         self.hour_spinbox.delete(0, 'end')
         self.hour_spinbox.insert(0, datetime.datetime.now().strftime("%I"))
-        tkinter.Label(self.time_frame, text=":", bg="#F0F0F0").pack(side="left")
+        tkinter.Label(self.time_frame, text=":", bg=self.darkBG2).pack(side="left")
         self.minute_spinbox = tkinter.Spinbox(self.time_frame, from_=0, to=59, width=2)
         self.minute_spinbox.pack(side="left", padx=5)
         self.minute_spinbox.delete(0, 'end')
         self.minute_spinbox.insert(0, datetime.datetime.now().strftime("%M"))
-        tkinter.Label(self.time_frame, text=":", bg="#F0F0F0").pack(side="left")
+        tkinter.Label(self.time_frame, text=":", bg=self.darkBG2).pack(side="left")
         self.second_spinbox = tkinter.Spinbox(self.time_frame, from_=0, to=59, width=2)
         self.second_spinbox.pack(side="left", padx=5)
         self.second_spinbox.delete(0, 'end')
