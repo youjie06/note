@@ -13,13 +13,11 @@ class NoteApp:
         self.menu_expanded = False
         self.mode_day = True
         
-        
         #color
         self.white="#ffffff"
         self.black="#000000"
         self.darkBG1="#2d2f32"
         self.darkBG2="#3f4145"
-        #self.lightBG=""
       
         # Menu Frame
         self.menu_frame = tk.Frame(self.root, bd=2, bg=self.darkBG1)
@@ -35,7 +33,6 @@ class NoteApp:
         self.mode_button = tk.Button(self.set_frame, cursor="hand2", bd=1, fg=self.black, bg=self.white, image=self.setting_dayicon, command=self.toggle_mode)
         self.mode_button.place(x=7, y=0, width=32, height=40)
         
-        
         # Content Frame
         self.content_frame = tk.Frame(self.root, bd=1, bg=self.darkBG2)
         self.content_frame.place(x=50, y=0, width=850, height=768)
@@ -44,12 +41,6 @@ class NoteApp:
         # Information Frame
         self.information_frame = tk.Frame(self.root, bd=2, bg=self.darkBG1)
         self.information_frame.place(x=900, y=0, width=300, height=768)
-        self.todo_frame = tk.Frame(self.information_frame, bd=1, bg=self.darkBG1)
-        self.todo_frame.place(x=0, y=0, width=300, height=384)
-        # self.todo_app = Todo(self.todo_frame)
-        self.text_frame = tk.Frame(self.information_frame, bd=1, bg=self.darkBG1)
-        self.text_frame.place(x=0, y=384, width=300, height=384)
-        # self.text_app = TextEditor(self.text_frame)
         
         # Icon location
         self.calender_icon_path = Image.open("icon/daily-calendar (1).png").resize((20, 20))
@@ -58,12 +49,7 @@ class NoteApp:
         self.text_icon = ImageTk.PhotoImage(self.text_icon_path)
         self.todo_icon_path = Image.open("icon/list-check.png").resize((20, 20))
         self.todo_icon = ImageTk.PhotoImage(self.todo_icon_path)
-        
-        # self.button_info = [("icon/daily-calendar (1).png", "calender"), ("icon/edit.png", "text"),
-        #              ("icon/list-check.png", "todo")]
-        #self.button_info = [("icon/daily-calendar (1).png", "日歷　", "calender"), ("icon/edit.png", "記事本", "text"),
-        #                    ("icon/list-check.png", "備忘錄", "todo")]
-        
+
         self.menu_icon_path = "icon/menu-burger.png"
         
         # Create menu buttons
@@ -82,19 +68,16 @@ class NoteApp:
 # 
     def create_menu_buttons_closed(self):#menu closed
         # Create buttons individually
-        #self.calender_icon_path = self.resize_image(self.calender_icon_path, 20, 20)
         self.calender_btn = tk.Button(self.menu_frame, image=self.calender_icon, fg=self.black, bd=0, cursor="hand2",command=self.calendar_click)
         self.calender_btn.image = self.calender_icon_path
         self.calender_btn.place(x=7, y=47, width=32, height=32)
         self.menu_buttons.append(self.calender_btn)
 
-        #self.text_icon_path = self.resize_image(self.text_icon_path, 20, 20)
         self.text_btn = tk.Button(self.menu_frame, image=self.text_icon, fg=self.black, bd=0, cursor="hand2",command=self.text_click)
         self.text_btn.image = self.text_icon_path
         self.text_btn.place(x=7, y=87, width=32, height=32)
         self.menu_buttons.append(self.text_btn)
 
-        #self.todo_icon_path = self.resize_image(self.todo_icon_path, 20, 20)
         self.todo_btn = tk.Button(self.menu_frame, image=self.todo_icon, fg=self.black, bd=0, cursor="hand2",command=self.todo_click)
         self.todo_btn.image = self.todo_icon_path
         self.todo_btn.place(x=7, y=127, width=32, height=32)
@@ -104,44 +87,23 @@ class NoteApp:
         self.mode_button.place(x=7, y=7, width=32, height=32)
 # 
     def create_menu_buttons_expanded(self):#menu expanded
-        #self.calender_icon_path = self.resize_image(self.calender_icon_path, 20, 20)
         self.calender_btn = tk.Button(self.menu_frame, text=" 日歷　", compound=tk.LEFT, font=('宋體', 11 , 'bold'), image=self.calender_icon, fg=self.black, bd=0, cursor="hand2",command=self.calendar_click)
         self.calender_btn.image = self.calender_icon_path
         self.calender_btn.place(x=7, y=47, width=90, height=32)
         self.menu_buttons.append(self.calender_btn)
 
-        #self.text_icon_path = self.resize_image(self.text_icon_path, 20, 20)
         self.text_btn = tk.Button(self.menu_frame, text=" 記事本", compound=tk.LEFT, font=('宋體', 11 , 'bold'), image=self.text_icon, fg=self.black, bd=0, cursor="hand2",command=self.text_click)
         self.text_btn.image = self.text_icon_path
         self.text_btn.place(x=7, y=87, width=90, height=32)
         self.menu_buttons.append(self.text_btn)
 
-        #self.todo_icon_path = self.resize_image(self.todo_icon_path, 20, 20)
         self.todo_btn = tk.Button(self.menu_frame, text=" 備忘錄", compound=tk.LEFT, font=('宋體', 11 , 'bold'), image=self.todo_icon, fg=self.black, bd=0, cursor="hand2",command=self.todo_click)
         self.todo_btn.image = self.todo_icon_path
         self.todo_btn.place(x=7, y=127, width=90, height=32)
         self.menu_buttons.append(self.todo_btn)
-
-        # for i, (icon_path, button_text) in enumerate(self.button_info):
-        #     # , command=self.menubtn_click(button_text)
-        #     button_icon = self.resize_image(icon_path, 20, 20)
-        #     button = tk.Button(self.menu_frame, fg=self.black, bd=0, text=button_text, compound=tk.LEFT, font=('宋體', 11 , 'bold'),
-        #                        cursor="hand2", image=button_icon)
-        #     button.image = button_icon
-        #     button.place(x=7, y=(i + 1) * 40 + 7, width=90, height=32)
-        #     self.menu_buttons.append(button)
-        #     button.config(command=self.menubtn_click(button_text))
-        
+            
         self.mode_button.config(text=" 亮色模式", compound=tk.LEFT, font=('宋體', 11 , 'bold'))
-        self.mode_button.place(x=7, y=0, width=100, height=32)
-        #command=lambda text=button_text: self.show_info(text)
-        # if self.mode_day:
-        #     self.mode_button.config(text="亮色模式", compound=tk.LEFT, font=('宋體', 11 , 'bold'))
-        #     self.mode_day = True
-        # else:
-        #     self.mode_button.config(text="暗色模式", compound=tk.LEFT, font=('宋體', 11 , 'bold'))
-        #     self.mode_day = False
-        self.mode_button.place(x=7, y=0, width=100, height=32)
+        self.mode_button.place(x=7, y=7, width=100, height=32)
 # 
     def toggle_menu(self):  #menu size change
         if self.menu_expanded:  # Hide menu buttons
