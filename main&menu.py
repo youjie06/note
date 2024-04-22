@@ -82,8 +82,7 @@ class NoteApp:
         self.todo_btn.image = self.todo_icon_path
         self.todo_btn.place(x=7, y=127, width=32, height=32)
         self.menu_buttons.append(self.todo_btn)
-
-        self.mode_button.config(text="")
+        self.mode_button.config(text="",command=self.toggle_mode)
         self.mode_button.place(x=7, y=7, width=32, height=32)
 # 
     def create_menu_buttons_expanded(self):#menu expanded
@@ -102,7 +101,7 @@ class NoteApp:
         self.todo_btn.place(x=7, y=127, width=90, height=32)
         self.menu_buttons.append(self.todo_btn)
             
-        self.mode_button.config(text=" 亮色模式", compound=tk.LEFT, font=('宋體', 11 , 'bold'))
+        self.mode_button.config(text=" 亮色模式", compound=tk.LEFT, font=('宋體', 11 , 'bold'),command=self.toggle_mode)
         self.mode_button.place(x=7, y=7, width=100, height=32)
 # 
     def toggle_menu(self):  #menu size change
