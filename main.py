@@ -155,7 +155,6 @@ class NoteApp:
         for widget in self.content_frame.winfo_children():
             widget.destroy()
         self.todo_app = Todo(self.content_frame)
-        
     
 if __name__ == "__main__":
     root = tk.Tk()

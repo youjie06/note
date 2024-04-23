@@ -56,7 +56,7 @@ class CalendarFM:
         for row in self.calendar_grid:
             for label in row:
                 label.destroy()
-            self.calendar_grid.clear()
+        self.calendar_grid.clear()
 
         # Get calendar for selected date
         year = self.year.get()
@@ -82,26 +82,35 @@ class CalendarFM:
             mycalendar[i][7]=cnt
             cnt=0
             if mycalendar[0][7] == 7:
-                 del mycalendar[0]
-                 mycalendar.append([0] * len(mycalendar[0]))
-                 
+                del mycalendar[0]
+                mycalendar.append([0] * len(mycalendar[0]))
             
         for i in range(6):
             row_labels = []  # Initialize list of labels for each row
             for j in range(7):
                 if mycalendar[i][j] != 0:
-                    cell_label = tk.Button(frame, text=mycalendar[i][j], bg="#3f4145", fg="#ffffff", activebackground="#4c4e52", activeforeground="#ffffff", relief="ridge", width=10, height=5, bd=1,font=('Helvetica', 12))
+                    # Create a button with command to call calendar_btnclick with the clicked date
+                    cell_label = tk.Button(frame, text=mycalendar[i][j], bg="#3f4145", fg="#ffffff", activebackground="#4c4e52", activeforeground="#ffffff", relief="ridge", width=10, height=5, bd=1, font=('Helvetica', 12),
+                                        command=lambda day=mycalendar[i][j]: self.calendar_btnclick(day))
                     cell_label.grid(row=i+1, column=j, padx=0, pady=0)
                     row_labels.append(cell_label)
                 else:
                     if mycalendar[i][7]!=7:
-                        cell_label = tk.Button(frame, text="", bg="#3f4145", fg="#ffffff", activebackground="#4c4e52", activeforeground="#ffffff", relief="ridge", width=10, height=5, bd=1,font=('Helvetica', 12))
+                        # Create an empty button
+                        cell_label = tk.Button(frame, text="", bg="#3f4145", fg="#ffffff", activebackground="#4c4e52", activeforeground="#ffffff", relief="ridge", width=10, height=5, bd=1, font=('Helvetica', 12))
                         cell_label.grid(row=i+1, column=j, padx=0, pady=0)
                         row_labels.append(cell_label)
                 j+=1
             i+=1
-            
-        self.calendar_grid.append(row_labels)
+            self.calendar_grid.append(row_labels)
+
+    def calendar_btnclick(self, date):
+        # This method is called when a button in the calendar is clicked
+        formatted_date = "{}/{:02d}/{:02d}".format(self.year.get(), self.month.get(), date)
+        return formatted_date
+        #print("Button clicked for date:", formatted_date)
+
+
 
 
     def update_calendar(self):  # Update date grid

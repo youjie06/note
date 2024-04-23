@@ -1,161 +1,122 @@
-import tkinter as tk    #pip install tk
-from PIL import Image, ImageTk  #pip install pillow
-from notecalendarFM import CalendarFM
-from notetodoFM import Todo
-from notetextFM import TextEditor
+import calendar
+import tkinter as tk
+from datetime import datetime, timedelta
 
-class NoteApp:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("Note")
-        self.root.geometry("1200x768")
-        root.resizable(False, False)
-        self.menu_expanded = False
-        self.mode_day = True
+class CalendarFM:
+    def __init__(self, parent):
+        self.parent = parent
+        self.frame = tk.Frame(self.parent, bg="#3f4145")
+        self.frame.pack(pady=40)
         
-        
-        #color
-        self.white="#ffffff"
-        self.black="#000000"
-        self.darkBG1="#2d2f32"
-        self.darkBG2="#3f4145"
-        #self.lightBG=""
-      
-        # Menu Frame
-        self.menu_frame = tk.Frame(self.root, bd=2, bg=self.darkBG1)
-        self.menu_frame.place(x=0, y=0, width=50, height=700)
-        
-        #Setting frame
-        self.setting_dayicon_path = "icon/brightness.png"
-        self.setting_nighticon_path = "icon/moon.png"
-        self.setting_dayicon = self.resize_image(self.setting_dayicon_path, 20, 20)
-        self.setting_nighticon = self.resize_image(self.setting_nighticon_path, 20, 20)
-        self.set_frame = tk.Frame(self.root, bd=1, bg=self.darkBG1)
-        self.set_frame.place(x=0, y=700, width=50, height=68)
-        self.mode_button = tk.Button(self.set_frame, cursor="hand2", bd=1, fg=self.black, bg=self.white, image=self.setting_dayicon, command=self.toggle_mode)
-        self.mode_button.place(x=7, y=0, width=32, height=40)
-        
-        
-        # Content Frame
-        self.content_frame = tk.Frame(self.root, bd=1, bg=self.darkBG2)
-        self.content_frame.place(x=50, y=0, width=850, height=768)
-        self.calendar_app = CalendarFM(self.content_frame)
-        
-        # Information Frame
-        self.information_frame = tk.Frame(self.root, bd=2, bg=self.darkBG1)
-        self.information_frame.place(x=900, y=0, width=300, height=768)
-        self.todo_frame = tk.Frame(self.information_frame, bd=1, bg=self.darkBG1)
-        self.todo_frame.place(x=0, y=0, width=300, height=384)
-        # self.todo_app = Todo(self.todo_frame)
-        self.text_frame = tk.Frame(self.information_frame, bd=1, bg=self.darkBG1)
-        self.text_frame.place(x=0, y=384, width=300, height=384)
-        # self.text_app = TextEditor(self.text_frame)
-        
-        # Icon location
-        self.button_info = [("icon/daily-calendar (1).png", "calender"), ("icon/edit.png", "text"),
-                     ("icon/list-check.png", "todo")]
-        #self.button_info = [("icon/daily-calendar (1).png", "日歷　", "calender"), ("icon/edit.png", "記事本", "text"),
-        #                    ("icon/list-check.png", "備忘錄", "todo")]
-        
-        self.menu_icon_path = "icon/menu-burger.png"
-        
-        # Create menu buttons
-        self.create_menu_buttons()  # Start with closed menu buttons
+        # Get current date
+        now = datetime.now()
+        self.year = tk.IntVar(value=now.year)  # Initialize year variable, set to current year
+        self.month = tk.IntVar(value=now.month)  # Initialize month variable, set to current month
+        self.day = tk.IntVar(value=(now + timedelta(days=1)).day)  # Initialize date variable, set to tomorrow's date
+        self.calendar_frame = None
+        # Initialize interface
+        self.create_widgets()
 
-        # Menu Button
-        self.menu_icon = self.resize_image(self.menu_icon_path, 20, 20)
-        self.menu_btn = tk.Button(self.menu_frame,text="menu",fg=self.black, image=self.menu_icon, bd=0, cursor="hand2", command=self.toggle_menu)
-        self.menu_btn.image = self.menu_icon
-        self.menu_btn.place(x=7, y=7, width=32, height=32)
-# 
-    def create_menu_buttons(self):
-        self.menu_buttons = []
-        button_func = self.create_menu_buttons_expanded if self.menu_expanded else self.create_menu_buttons_closed
-        button_func()
-# 
-    def create_menu_buttons_closed(self):#menu closed
-        for i, (icon_path, button_text) in enumerate(self.button_info):
-            button_icon = self.resize_image(icon_path, 20, 20)
-            button = tk.Button(self.menu_frame, image=button_icon, fg=self.black, bd=0,
-                               cursor="hand2")
-            button.image = button_icon
-            button.place(x=7, y=(i + 1) * 40 + 7, width=32, height=32)
-            self.menu_buttons.append(button)
-        self.mode_button.config(text="")
-        self.mode_button.place(x=7, y=0, width=32, height=32)
-        # , command=self.menubtn_click(button_text)
-# 
-    def create_menu_buttons_expanded(self):#menu expanded
-        for i, (icon_path, button_text) in enumerate(self.button_info):
-            # , command=self.menubtn_click(button_text)
-            button_icon = self.resize_image(icon_path, 20, 20)
-            button = tk.Button(self.menu_frame, text=button_text, fg=self.black, bd=0, compound=tk.LEFT, font=('宋體', 11 , 'bold'),
-                               cursor="hand2", image=button_icon)
-            button.image = button_icon
-            button.place(x=7, y=(i + 1) * 40 + 7, width=90, height=32)
-            self.menu_buttons.append(button)
-            button.config(command=self.menubtn_click(button_text))
+    def create_widgets(self):
+        # Year and month layout
+        year_month_frame = tk.Frame(self.frame, bg="#3f4145")
+        year_month_frame.grid(row=0, column=0, columnspan=7, pady=(0, 10))
+
+        # Year selection
+        year_label = tk.Label(year_month_frame, text="Year:", font=(16), bg="#3f4145", fg="#ffffff")
+        year_label.grid(row=0, column=0, padx=5, pady=5, sticky="ne")
+
+        self.year_spinbox = tk.Spinbox(year_month_frame, from_=1900, to=2100, textvariable=self.year, command=self.update_calendar)
+        self.year_spinbox.grid(row=0, column=1, padx=5, pady=5)
+
+        # Month selection
+        month_label = tk.Label(year_month_frame, text="Month:", font=(16), bg="#3f4145", fg="#ffffff")
+        month_label.grid(row=0, column=2, padx=5, pady=5, sticky="ne")
+
+        self.month_spinbox = tk.Spinbox(year_month_frame, from_=1, to=12, textvariable=self.month, command=self.update_calendar)
+        self.month_spinbox.grid(row=0, column=3, padx=5, pady=5)
+
+        # Create week label and date grid layout
+        self.calendar_frame = tk.Frame(self.frame, bg="#3f4145")
+        self.calendar_frame.grid(row=1, column=0, columnspan=7, sticky="n")
         
-        self.mode_button.config(text=" 亮色模式", compound=tk.LEFT, font=('宋體', 11 , 'bold'))
-        self.mode_button.place(x=7, y=0, width=100, height=32)
-        #command=lambda text=button_text: self.show_info(text)
-        # if self.mode_day:
-        #     self.mode_button.config(text="亮色模式", compound=tk.LEFT, font=('宋體', 11 , 'bold'))
-        #     self.mode_day = True
-        # else:
-        #     self.mode_button.config(text="暗色模式", compound=tk.LEFT, font=('宋體', 11 , 'bold'))
-        #     self.mode_day = False
-        self.mode_button.place(x=7, y=0, width=100, height=32)
-# 
-    def toggle_menu(self):  #menu size change
-        if self.menu_expanded:  # Hide menu buttons
-            for button in self.menu_buttons:
+        # Create week label
+        weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+        for i, day in enumerate(weekdays):
+            label = tk.Label(self.calendar_frame, text=day, bg="#3f4145", fg="#ffffff" ,font=('Helvetica', 12))
+            label.grid(row=0, column=i, padx=0, pady=0)
+
+        # Create date grid
+        self.calendar_grid = []
+        self.create_calendar_grid(self.calendar_frame)
+
+
+    def create_calendar_grid(self, frame):
+        # Clear existing date grid
+        for row in self.calendar_grid:
+            for label in row:
+                label.destroy()
+            self.calendar_grid.clear()
+
+        # Get calendar for selected date
+        year = self.year.get()
+        month = self.month.get()
+        cal = calendar.monthcalendar(year, month)
+        mycalendar = [[0 for i in range(8)] for j in range(7)]
+        for i,week in enumerate(cal):
+            for j,day in enumerate(week):
+                if day != 0:
+                    weekday = (calendar.weekday(year, month, day) + 1) % 7
+                    if weekday == 0:
+                        i+=1
+                        mycalendar[i][weekday] = day
+                        break
+                    else:          
+                        mycalendar[i][weekday] = day
+
+        cnt = 0                
+        for i in range(7):
+            for j in range(7):
+                if mycalendar[i][j] == 0:
+                    cnt+=1
+            mycalendar[i][7]=cnt
+            cnt=0
+            if mycalendar[0][7] == 7:
+                 del mycalendar[0]
+                 mycalendar.append([0] * len(mycalendar[0]))
+                 
+            
+        for i in range(6):
+            row_labels = []  # Initialize list of labels for each row
+            for j in range(7):
+                if mycalendar[i][j] != 0:
+                    cell_label = tk.Button(frame, text=mycalendar[i][j], bg="#3f4145", fg="#ffffff", activebackground="#4c4e52", activeforeground="#ffffff", relief="ridge", width=10, height=5, bd=1,font=('Helvetica', 12))
+                    cell_label.grid(row=i+1, column=j, padx=0, pady=0)
+                    row_labels.append(cell_label)
+                else:
+                    if mycalendar[i][7]!=7:
+                        cell_label = tk.Button(frame, text="", bg="#3f4145", fg="#ffffff", activebackground="#4c4e52", activeforeground="#ffffff", relief="ridge", width=10, height=5, bd=1,font=('Helvetica', 12))
+                        cell_label.grid(row=i+1, column=j, padx=0, pady=0)
+                        row_labels.append(cell_label)
+                j+=1
+            i+=1
+            
+        self.calendar_grid.append(row_labels)
+
+
+    def update_calendar(self):  # Update date grid
+        for row in self.calendar_grid:
+            for button in row:
                 button.destroy()
-            # Restore default frame proportions
-            self.menu_frame.place(x=0, y=0, width=50, height=700)
-            self.set_frame.place(x=0, y=700, width=50, height=68)
-            self.content_frame.place(x=50, y=0, width=850, height=768)
-            self.information_frame.place(x=900, y=0, width=300, height=768)
-            self.menu_expanded = False
-        else:
-            # Adjust frame proportions
-            self.menu_frame.place(x=0, y=0, width=120, height=700)
-            self.set_frame.place(x=0, y=700, width=120, height=68)
-            self.content_frame.place(x=120, y=0, width=780, height=768)
-            self.menu_expanded = True
-        # Recreate menu buttons
-        self.create_menu_buttons()
-#   
-    def toggle_mode(self):  #background   
-        if self.mode_day:
-            self.mode_button.config(image=self.setting_nighticon)
-            self.mode_button_text = " 暗色模式"
-        else:
-            self.mode_button.config(image=self.setting_dayicon)
-            self.mode_button_text = " 亮色模式"
-        self.mode_button.config(text=self.mode_button_text)
-        self.mode_day = not self.mode_day
-# 
-    def show_info(self, button_text):   #check button content
-        print(f"Button clicked: {button_text}")
-# 
-    def resize_image(self, image_path, width, height):  #input con&setting size
-        image = Image.open(image_path)
-        image = image.resize((width, height), Image.LANCZOS)
-        return ImageTk.PhotoImage(image)
-# 
-    def menubtn_click(self, btn_click):
-        print(1)
-    #     #self.content_frame
-        for widget in self.content_frame.winfo_children():
-            widget.destroy()
-        if btn_click == "calender":
-            self.calendar_app = CalendarFM(self.content_frame)
-        elif btn_click == "text":
-            self.todo_app = Todo(self.content_frame)
-        # else:
-            # self.text_app = TextEditor(self.content_frame)
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = NoteApp(root)
-    root.mainloop()
+
+        # Create week label
+        weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+        for i, day in enumerate(weekdays):
+            label = tk.Label(self.calendar_frame, text=day, bg="#3f4145", fg="#ffffff",font=('Helvetica', 12))
+            label.grid(row=0, column=i, padx=0, pady=0)
+
+        # Create date grid
+        self.calendar_grid = []
+        calendar_frame = self.calendar_frame
+        self.create_calendar_grid(calendar_frame)
+        calendar_frame.grid(row=1, column=0, columnspan=7)
