@@ -12,9 +12,9 @@ class CalendarFM:
         self.black="#000000"
         self.darkBG1="#2d2f32"
         self.darkBG2="#3f4145"
+        self.darkactive ="#4c4e52"
         self.brightBG1 ="#e3e5e8"
         self.brightBG2 ="#f7f6f7"
-        self.darkactive ="#4c4e52"
         self.brightactive ="#f1f0f2"
         
         # Get current date
@@ -27,7 +27,7 @@ class CalendarFM:
         self.create_widgets()
     
     def toggle_mode(self, mode_day):
-        # 根據模式切換顏色
+        # change color
         self.mode_day = mode_day
         self.currentbg_color = self.darkBG2 if self.mode_day else self.brightBG2
         self.currentfg_color = self.white if self.mode_day else self.black
@@ -42,7 +42,7 @@ class CalendarFM:
             label.config(bg=self.currentbg_color, fg=self.currentfg_color)
         for row_labels in self.calendar_grid:
             for cell_label in row_labels:
-                if cell_label.cget('text') != "":
+                if cell_label.cget('text') != "":#.cget() Get the current value of a specific widget attribute.
                     cell_label.config(bg=self.currentbg_color, fg=self.currentfg_color,activebackground=self.currentactive_color, activeforeground=self.currentfg_color)
                 else:
                     cell_label.config(bg=self.currentbg_color,activebackground=self.currentactive_color)
