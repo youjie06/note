@@ -11,13 +11,15 @@ class NoteApp:
         self.root.geometry("1200x768")
         root.resizable(False, False)
         self.menu_expanded = False
-        self.mode_day = True
+        self.mode_day = False
         
         #color
         self.white="#ffffff"
         self.black="#000000"
         self.darkBG1="#2d2f32"
         self.darkBG2="#3f4145"
+        self.brightBG1 ="#e3e5e8"
+        self.brightBG2 ="#f7f6f7"
       
         # Menu Frame
         self.menu_frame = tk.Frame(self.root, bd=2, bg=self.darkBG1)
@@ -28,15 +30,15 @@ class NoteApp:
         self.setting_nighticon_path = "icon/moon.png"
         self.setting_dayicon = self.resize_image(self.setting_dayicon_path, 20, 20)
         self.setting_nighticon = self.resize_image(self.setting_nighticon_path, 20, 20)
-        self.set_frame = tk.Frame(self.root, bd=1, bg=self.darkBG1)
+        self.set_frame = tk.Frame(self.root, bd=0, bg=self.darkBG1)
         self.set_frame.place(x=0, y=700, width=50, height=68)
-        self.mode_button = tk.Button(self.set_frame, cursor="hand2", bd=1, fg=self.black, bg=self.white, image=self.setting_dayicon, command=self.toggle_mode)
+        self.mode_button = tk.Button(self.set_frame, cursor="hand2", bd=0, fg=self.black, bg=self.white, image=self.setting_dayicon, command=self.toggle_mode)
         self.mode_button.place(x=7, y=0, width=32, height=40)
         
         # Content Frame
         self.content_frame = tk.Frame(self.root, bd=1, bg=self.darkBG2)
         self.content_frame.place(x=50, y=0, width=850, height=768)
-        self.calendar_app = CalendarFM(self.content_frame)
+        self.calendar_app = CalendarFM(self.content_frame, mode_day=self.mode_day)
         
         # Information Frame
         self.information_frame = tk.Frame(self.root, bd=2, bg=self.darkBG1)
@@ -123,13 +125,30 @@ class NoteApp:
         # Recreate menu buttons
         self.create_menu_buttons()
 #   
-    def toggle_mode(self):  #background   
+    def toggle_mode(self):  #background change
         if self.mode_day:
-            self.mode_button.config(image=self.setting_nighticon)
-            self.mode_button_text = " 暗色模式"
-        else:
             self.mode_button.config(image=self.setting_dayicon)
-            self.mode_button_text = " 亮色模式"
+            self.menu_frame.config(bg=self.darkBG1)
+            self.set_frame.config(bg=self.darkBG1)
+            self.content_frame.config(bg=self.darkBG2)
+            self.information_frame.config(bg=self.darkBG1)
+            # self.calendar_app.color_change("dark")
+            if self.menu_expanded :
+                self.mode_button_text = " 亮色模式"
+            else:
+                self.mode_button_text = ""
+        else:
+            self.mode_button.config(image=self.setting_nighticon)
+            self.menu_frame.config(bg=self.brightBG1)
+            self.set_frame.config(bg=self.brightBG1)
+            self.content_frame.config(bg=self.brightBG2)
+            self.information_frame.config(bg=self.brightBG1)
+            # self.calendar_app.color_change("bright")
+            if self.menu_expanded :
+                self.mode_button_text = " 暗色模式"
+            else:
+                self.mode_button_text = ""
+        self.calendar_app.toggle_mode(self.mode_day)
         self.mode_button.config(text=self.mode_button_text)
         self.mode_day = not self.mode_day
 # 
@@ -144,7 +163,7 @@ class NoteApp:
     def calendar_click(self):
         for widget in self.content_frame.winfo_children():
             widget.destroy()          
-        self.calendar_app = CalendarFM(self.content_frame)
+        self.calendar_app = CalendarFM(self.content_frame, mode_day=self.mode_day)
     
     def text_click(self):    
         for widget in self.content_frame.winfo_children():
