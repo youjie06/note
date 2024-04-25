@@ -103,7 +103,11 @@ class NoteApp:
         self.todo_btn.place(x=7, y=127, width=90, height=32)
         self.menu_buttons.append(self.todo_btn)
             
-        self.mode_button.config(text=" 亮色模式", compound=tk.LEFT, font=('宋體', 11 , 'bold'),command=self.toggle_mode)
+        if self.mode_day:
+            self.modetext =" 暗色模式"
+        else:
+            self.modetext =" 亮色模式"
+        self.mode_button.config(text=self.modetext,compound=tk.LEFT, font=('宋體', 11 , 'bold'),command=self.toggle_mode)
         self.mode_button.place(x=7, y=7, width=100, height=32)
 # 
     def toggle_menu(self):  #menu size change
@@ -132,7 +136,6 @@ class NoteApp:
             self.set_frame.config(bg=self.darkBG1)
             self.content_frame.config(bg=self.darkBG2)
             self.information_frame.config(bg=self.darkBG1)
-            # self.calendar_app.color_change("dark")
             if self.menu_expanded :
                 self.mode_button_text = " 亮色模式"
             else:
@@ -143,7 +146,6 @@ class NoteApp:
             self.set_frame.config(bg=self.brightBG1)
             self.content_frame.config(bg=self.brightBG2)
             self.information_frame.config(bg=self.brightBG1)
-            # self.calendar_app.color_change("bright")
             if self.menu_expanded :
                 self.mode_button_text = " 暗色模式"
             else:
