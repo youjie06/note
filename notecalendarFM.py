@@ -4,8 +4,8 @@ from datetime import datetime, timedelta
 class CalendarFM:
     def __init__(self, parent, mode_day=False):  # 新增mode_day參數，默認為False
         self.parent = parent
-        self.frame = tk.Frame(self.parent, bg="#3f4145")
-        self.frame.pack(pady=40)
+        self.mainframe = tk.Frame(self.parent, bg="#3f4145")
+        self.mainframe.pack(pady=40)
 
         #color
         self.white="#ffffff"
@@ -29,11 +29,16 @@ class CalendarFM:
     def toggle_mode(self, mode_day):
         # change color
         self.mode_day = mode_day
-        self.currentbg_color = self.darkBG2 if self.mode_day else self.brightBG2
-        self.currentfg_color = self.white if self.mode_day else self.black
-        self.currentactive_color = self.darkactive if self.mode_day else self.brightactive
-        
-        self.frame.config(bg=self.currentbg_color)
+        if self.mode_day:
+            self.currentbg_color = self.darkBG2   
+            self.currentfg_color = self.white  
+            self.currentactive_color = self.darkactive 
+        else:
+            self.currentbg_color = self.brightBG2
+            self.currentfg_color = self.black
+            self.currentactive_color = self.brightactive
+            
+        self.mainframe.config(bg=self.currentbg_color)
         self.year_month_frame.config(bg=self.currentbg_color)
         self.year_label.config(bg=self.currentbg_color,fg=self.currentfg_color)
         self.month_label.config(bg=self.currentbg_color,fg=self.currentfg_color)
@@ -50,7 +55,7 @@ class CalendarFM:
             
     def create_widgets(self):
         # Year and month layout
-        self.year_month_frame = tk.Frame(self.frame, bg="#3f4145")
+        self.year_month_frame = tk.Frame(self.mainframe, bg=self.darkBG2)
         self.year_month_frame.grid(row=0, column=0, columnspan=7, pady=(0, 10))
 
         # Year selection
@@ -68,7 +73,7 @@ class CalendarFM:
         self.month_spinbox.grid(row=0, column=3, padx=5, pady=5)
 
         # Create week label and date grid layout
-        self.calendar_frame = tk.Frame(self.frame, bg=self.darkBG2)
+        self.calendar_frame = tk.Frame(self.mainframe, bg=self.darkBG2)
         self.calendar_frame.grid(row=1, column=0, columnspan=7, sticky="n")
         
         weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
@@ -146,6 +151,12 @@ class CalendarFM:
 
 
     def update_calendar(self):  # Update date grid
+        for row_labels in self.calendar_grid:
+            for cell_label in row_labels:
+                if cell_label.cget('text') != "":#.cget() Get the current value of a specific widget attribute.
+                    cell_label.config(bg=self.currentbg_color, fg=self.currentfg_color,activebackground=self.currentactive_color, activeforeground=self.currentfg_color)
+                else:
+                    cell_label.config(bg=self.currentbg_color,activebackground=self.currentactive_color)
         for row in self.calendar_grid:
             for button in row:
                 button.destroy()
@@ -162,3 +173,4 @@ class CalendarFM:
         calendar_frame = self.calendar_frame
         self.create_calendar_grid(calendar_frame)
         calendar_frame.grid(row=1, column=0, columnspan=7)
+        

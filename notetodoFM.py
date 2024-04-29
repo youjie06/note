@@ -7,7 +7,7 @@ from threading import Thread
 from tkcalendar import DateEntry
 
 class Todo:
-    def __init__(self, root):
+    def __init__(self, root, mode_day=False):
         self.root = root
         self.tasks = []
         self.reminders = []
@@ -17,13 +17,18 @@ class Todo:
         self.black="#000000"
         self.darkBG1="#2d2f32"
         self.darkBG2="#3f4145"
+        self.darkactive ="#4c4e52"
+        self.brightBG1 ="#e3e5e8"
+        self.brightBG2 ="#f7f6f7"
+        self.brightactive ="#f1f0f2"
         
         # Frame for the input section
         self.input_frame = tkinter.Frame(self.root, bg=self.darkBG2)
         self.input_frame.pack(pady=10, padx=10, fill="x")
-        tkinter.Label(self.input_frame, text="標題:",fg= self.white, bg=self.darkBG2, font=(12)).pack(side="left")
-        self.txt_input = tkinter.Entry(self.input_frame, width=30)
-        self.txt_input.pack(side="left", padx=5)
+        self.title_txt = tkinter.Label(self.input_frame, text="標題:",fg= self.white, bg=self.darkBG2, font=(12))
+        self.title_txt.pack(side="left")
+        self.title_txt_input = tkinter.Entry(self.input_frame, width=30)
+        self.title_txt_input.pack(side="left", padx=5)
 
         # Button to add tasks
         self.btn_add_task = tkinter.Button(self.input_frame, text="增加待辦事項", fg="white", bg="#6CAE75", command=self.add_task)
@@ -38,17 +43,20 @@ class Todo:
         self.time_frame.pack(pady=5, padx=10, fill="x")
 
         # Labels and Spinboxes for time selection
-        tkinter.Label(self.time_frame, text="時間:",fg= self.white, bg=self.darkBG2, font=(12)).pack(side="left")
+        self.time_pick=tkinter.Label(self.time_frame, text="時間:",fg= self.white, bg=self.darkBG2, font=(12))
+        self.time_pick.pack(side="left")
         self.hour_spinbox = tkinter.Spinbox(self.time_frame, from_=1, to=12, width=2)
         self.hour_spinbox.pack(side="left", padx=5)
         self.hour_spinbox.delete(0, 'end')
         self.hour_spinbox.insert(0, datetime.datetime.now().strftime("%I"))
-        tkinter.Label(self.time_frame, text=":", bg=self.darkBG2).pack(side="left")
+        self.minute_semicolon=tkinter.Label(self.time_frame, text=":", fg= self.white, bg=self.darkBG2)
+        self.minute_semicolon.pack(side="left")
         self.minute_spinbox = tkinter.Spinbox(self.time_frame, from_=0, to=59, width=2)
         self.minute_spinbox.pack(side="left", padx=5)
         self.minute_spinbox.delete(0, 'end')
         self.minute_spinbox.insert(0, datetime.datetime.now().strftime("%M"))
-        tkinter.Label(self.time_frame, text=":", bg=self.darkBG2).pack(side="left")
+        self.second_semicolon=tkinter.Label(self.time_frame, text=":", fg= self.white, bg=self.darkBG2)
+        self.second_semicolon.pack(side="left")
         self.second_spinbox = tkinter.Spinbox(self.time_frame, from_=0, to=59, width=2)
         self.second_spinbox.pack(side="left", padx=5)
         self.second_spinbox.delete(0, 'end')
@@ -78,6 +86,26 @@ class Todo:
         self.btn_delete_one = tkinter.Button(self.root, text="刪除選定事項", fg="white", bg="#EF5350", command=self.delete_one_task)
         self.btn_delete_one.pack(pady=5, padx=10, fill="x")
 
+    def toggle_mode(self, mode_day):
+        # change color
+        self.mode_day = mode_day
+        if self.mode_day:
+            self.currentbg_color = self.darkBG2   
+            self.currentfg_color = self.white  
+            self.currentactive_color = self.darkactive 
+        else:
+            self.currentbg_color = self.brightBG2
+            self.currentfg_color = self.black
+            self.currentactive_color = self.brightactive
+            
+        self.input_frame.config(bg=self.currentbg_color)
+        self.time_frame.config(bg=self.currentbg_color)
+        self.minute_semicolon.config(bg=self.currentbg_color)
+        self.second_semicolon.config(bg=self.currentbg_color)
+        self.title_txt.config(bg=self.currentbg_color,fg=self.currentfg_color)
+        self.time_pick.config(bg=self.currentbg_color,fg=self.currentfg_color)
+        # print(mode_day)
+        
     # Function to update the listbox with tasks
     def update_listbox(self):
         self.clear_listbox()
@@ -90,13 +118,13 @@ class Todo:
 
     # Function to add a task
     def add_task(self):
-        task = self.txt_input.get()
+        task = self.title_txt_input.get()
         if task != "":
             self.tasks.append(task)
             self.update_listbox()
         else:
             tkinter.messagebox.showinfo("錯誤", "標題不能空白")
-        self.txt_input.delete(0, "end")
+        self.title_txt_input.delete(0, "end")
 
     # Function to delete all tasks
     def del_all_tasks(self):
@@ -150,3 +178,4 @@ class Todo:
                     tkinter.messagebox.showinfo("提醒", f"注意事項 '{task}'!")
                     self.reminders.remove(reminder)
             time.sleep(1)
+

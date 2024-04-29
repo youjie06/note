@@ -15,7 +15,9 @@ class TextEditor:
         self.darkBG1="#2d2f32"
         self.darkBG2="#3f4145"
         self.darkBG3="#5c5f64"
-        
+        self.brightBG1 ="#e3e5e8"
+        self.brightBG2 ="#f7f6f7"
+      
         # Function to change font style
         def font_style(event=None):
             self.fontStyle = 'Arial'
@@ -148,3 +150,13 @@ class TextEditor:
         self.text_input.pack(fill=BOTH, expand=True)
 
         self.root.mainloop()
+    def toggle_mode(self, mode_day):
+        # change color
+        self.mode_day = mode_day
+        if self.mode_day:
+            self.currentbg_color = self.darkBG2   
+            self.currentfg_color = self.white
+        else:
+            self.currentbg_color = self.brightBG2
+            self.currentfg_color = self.black
+        

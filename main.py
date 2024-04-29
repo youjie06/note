@@ -18,8 +18,10 @@ class NoteApp:
         self.black="#000000"
         self.darkBG1="#2d2f32"
         self.darkBG2="#3f4145"
+        self.darkactive ="#4c4e52"
         self.brightBG1 ="#e3e5e8"
         self.brightBG2 ="#f7f6f7"
+        self.brightactive ="#f1f0f2"
       
         # Menu Frame
         self.menu_frame = tk.Frame(self.root, bd=2, bg=self.darkBG1)
@@ -39,6 +41,7 @@ class NoteApp:
         self.content_frame = tk.Frame(self.root, bd=1, bg=self.darkBG2)
         self.content_frame.place(x=50, y=0, width=850, height=768)
         self.calendar_app = CalendarFM(self.content_frame, mode_day=self.mode_day)
+        self.calendarr =True
         
         # Information Frame
         self.information_frame = tk.Frame(self.root, bd=2, bg=self.darkBG1)
@@ -129,14 +132,14 @@ class NoteApp:
         # Recreate menu buttons
         self.create_menu_buttons()
 #   
-    def toggle_mode(self):  #background change
+    def toggle_mode(self):
         if self.mode_day:
             self.mode_button.config(image=self.setting_dayicon)
             self.menu_frame.config(bg=self.darkBG1)
             self.set_frame.config(bg=self.darkBG1)
             self.content_frame.config(bg=self.darkBG2)
             self.information_frame.config(bg=self.darkBG1)
-            if self.menu_expanded :
+            if self.menu_expanded:
                 self.mode_button_text = " 亮色模式"
             else:
                 self.mode_button_text = ""
@@ -146,12 +149,24 @@ class NoteApp:
             self.set_frame.config(bg=self.brightBG1)
             self.content_frame.config(bg=self.brightBG2)
             self.information_frame.config(bg=self.brightBG1)
-            if self.menu_expanded :
+            if self.menu_expanded:
                 self.mode_button_text = " 暗色模式"
             else:
                 self.mode_button_text = ""
-        self.calendar_app.toggle_mode(self.mode_day)
-        self.mode_button.config(text=self.mode_button_text)
+
+        # print(self.mode_day)
+        # delete content
+        for widget in self.content_frame.winfo_children():
+            widget.destroy()
+        if  self.calendarr == True:
+            self.calendar_app = CalendarFM(self.content_frame, mode_day=self.mode_day)
+            self.calendar_app.toggle_mode(self.mode_day)
+        elif self.text == True:
+            self.text_app = TextEditor(self.content_frame)
+            self.text_app.toggle_mode(self.mode_day)
+        else:
+            self.todo_app = Todo(self.content_frame, mode_day=self.mode_day)
+            self.todo_app.toggle_mode(self.mode_day)
         self.mode_day = not self.mode_day
 # 
     def show_info(self, button_text):   #check button content
@@ -163,19 +178,34 @@ class NoteApp:
         return ImageTk.PhotoImage(image)
 # 
     def calendar_click(self):
+        self.calendarr =True
+        self.text= False
+        self.todo = False
         for widget in self.content_frame.winfo_children():
-            widget.destroy()          
+            widget.destroy()   
         self.calendar_app = CalendarFM(self.content_frame, mode_day=self.mode_day)
+        self.calendar_app.toggle_mode(not self.mode_day)
+        
     
-    def text_click(self):    
+    def text_click(self): 
+        self.calendarr =False
+        self.text= True
+        self.todo = False   
         for widget in self.content_frame.winfo_children():
             widget.destroy()
         self.text_app = TextEditor(self.content_frame)
+        self.text_app.toggle_mode(not self.mode_day)
+        
     
     def todo_click(self):
+        self.calendarr = False
+        self.text= False
+        self.todo = True
         for widget in self.content_frame.winfo_children():
             widget.destroy()
-        self.todo_app = Todo(self.content_frame)
+        self.todo_app = Todo(self.content_frame, mode_day=self.mode_day)
+        self.todo_app.toggle_mode(not self.mode_day)
+        
     
 if __name__ == "__main__":
     root = tk.Tk()
