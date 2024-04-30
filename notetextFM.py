@@ -32,10 +32,10 @@ class TextEditor:
 
         # Function to make text bold
         def bold_text():
-            self.text_property = font.Font(font=self.text_input['font']).actual()
-            if self.text_property['weight'] == 'normal':
+            text_property = font.Font(font=self.text_input['font']).actual()
+            if text_property['weight'] == 'normal':
                 self.text_input.config(font=(self.fontStyle, self.fontSize, 'bold'))
-            elif self.text_property['weight'] == 'bold':
+            elif text_property['weight'] == 'bold':
                 self.text_input.config(font=(self.fontStyle, self.fontSize, 'normal'))
 
         # Function to make text italic
@@ -150,6 +150,7 @@ class TextEditor:
         self.text_input.pack(fill=BOTH, expand=True)
 
         self.root.mainloop()
+        
     def toggle_mode(self, mode_day):
         # change color
         self.mode_day = mode_day
@@ -159,4 +160,5 @@ class TextEditor:
         else:
             self.currentbg_color = self.brightBG2
             self.currentfg_color = self.black
+        
         

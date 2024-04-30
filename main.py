@@ -122,12 +122,18 @@ class NoteApp:
             self.set_frame.place(x=0, y=700, width=50, height=68)
             self.content_frame.place(x=50, y=0, width=850, height=768)
             self.information_frame.place(x=900, y=0, width=300, height=768)
+            if self.mode_day:
+                self.modetext =" 亮色模式"
+            else:
+                self.modetext =" 暗色模式"
+                self.mode_button.config(text=self.modetext)
             self.menu_expanded = False
         else:
             # Adjust frame proportions
             self.menu_frame.place(x=0, y=0, width=120, height=700)
             self.set_frame.place(x=0, y=700, width=120, height=68)
             self.content_frame.place(x=120, y=0, width=780, height=768)
+            self.mode_button.config(text="")
             self.menu_expanded = True
         # Recreate menu buttons
         self.create_menu_buttons()
@@ -140,9 +146,8 @@ class NoteApp:
             self.content_frame.config(bg=self.darkBG2)
             self.information_frame.config(bg=self.darkBG1)
             if self.menu_expanded:
-                self.mode_button_text = " 亮色模式"
-            else:
-                self.mode_button_text = ""
+                self.mode_button.config(text=" 亮色模式")
+
         else:
             self.mode_button.config(image=self.setting_nighticon)
             self.menu_frame.config(bg=self.brightBG1)
@@ -150,11 +155,9 @@ class NoteApp:
             self.content_frame.config(bg=self.brightBG2)
             self.information_frame.config(bg=self.brightBG1)
             if self.menu_expanded:
-                self.mode_button_text = " 暗色模式"
-            else:
-                self.mode_button_text = ""
-
-        # print(self.mode_day)
+                self.mode_button.config(text=" 暗色模式")
+        
+        print(self.mode_day)
         # delete content
         for widget in self.content_frame.winfo_children():
             widget.destroy()
@@ -163,7 +166,8 @@ class NoteApp:
             self.calendar_app.toggle_mode(self.mode_day)
         elif self.text == True:
             self.text_app = TextEditor(self.content_frame)
-            self.text_app.toggle_mode(self.mode_day)
+            # self.text_app.toggle_mode(self.mode_day)
+            # print(self.mode_day)
         else:
             self.todo_app = Todo(self.content_frame, mode_day=self.mode_day)
             self.todo_app.toggle_mode(self.mode_day)
@@ -194,7 +198,7 @@ class NoteApp:
         for widget in self.content_frame.winfo_children():
             widget.destroy()
         self.text_app = TextEditor(self.content_frame)
-        self.text_app.toggle_mode(not self.mode_day)
+        # self.text_app.toggle_mode(not self.mode_day)
         
     
     def todo_click(self):
