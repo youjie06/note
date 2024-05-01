@@ -1,5 +1,5 @@
-import tkinter as tk    #pip install tk
-from PIL import Image, ImageTk  #pip install pillow
+import tkinter as tk
+from PIL import Image, ImageTk
 from notecalendarFM import CalendarFM
 from notetodoFM import Todo
 from notetextFM import TextEditor
@@ -41,7 +41,7 @@ class NoteApp:
         self.content_frame = tk.Frame(self.root, bd=1, bg=self.darkBG2)
         self.content_frame.place(x=50, y=0, width=850, height=768)
         self.calendar_app = CalendarFM(self.content_frame, mode_day=self.mode_day)
-        self.calendarr =True
+        self.calendarr = True
         
         # Information Frame
         self.information_frame = tk.Frame(self.root, bd=2, bg=self.darkBG1)
@@ -62,7 +62,7 @@ class NoteApp:
 
         # Menu Button
         self.menu_icon = self.resize_image(self.menu_icon_path, 20, 20)
-        self.menu_btn = tk.Button(self.menu_frame,text="menu",fg=self.black, image=self.menu_icon, bd=0, cursor="hand2", command=self.toggle_menu)
+        self.menu_btn = tk.Button(self.menu_frame,text="menu", image=self.menu_icon, bd=0, cursor="hand2", command=self.toggle_menu)
         self.menu_btn.image = self.menu_icon
         self.menu_btn.place(x=7, y=7, width=32, height=32)
 # 
@@ -73,17 +73,17 @@ class NoteApp:
 # 
     def create_menu_buttons_closed(self):#menu closed
         # Create buttons individually
-        self.calender_btn = tk.Button(self.menu_frame, image=self.calender_icon, fg=self.black, bd=0, cursor="hand2",command=self.calendar_click)
+        self.calender_btn = tk.Button(self.menu_frame, image=self.calender_icon, bd=0, cursor="hand2",command=self.calendar_click)
         self.calender_btn.image = self.calender_icon_path
         self.calender_btn.place(x=7, y=47, width=32, height=32)
         self.menu_buttons.append(self.calender_btn)
 
-        self.text_btn = tk.Button(self.menu_frame, image=self.text_icon, fg=self.black, bd=0, cursor="hand2",command=self.text_click)
+        self.text_btn = tk.Button(self.menu_frame, image=self.text_icon, bd=0, cursor="hand2",command=self.text_click)
         self.text_btn.image = self.text_icon_path
         self.text_btn.place(x=7, y=87, width=32, height=32)
         self.menu_buttons.append(self.text_btn)
 
-        self.todo_btn = tk.Button(self.menu_frame, image=self.todo_icon, fg=self.black, bd=0, cursor="hand2",command=self.todo_click)
+        self.todo_btn = tk.Button(self.menu_frame, image=self.todo_icon, bd=0, cursor="hand2",command=self.todo_click)
         self.todo_btn.image = self.todo_icon_path
         self.todo_btn.place(x=7, y=127, width=32, height=32)
         self.menu_buttons.append(self.todo_btn)
@@ -91,17 +91,17 @@ class NoteApp:
         self.mode_button.place(x=7, y=7, width=32, height=32)
 # 
     def create_menu_buttons_expanded(self):#menu expanded
-        self.calender_btn = tk.Button(self.menu_frame, text=" 日歷　", compound=tk.LEFT, font=('宋體', 11 , 'bold'), image=self.calender_icon, fg=self.black, bd=0, cursor="hand2",command=self.calendar_click)
+        self.calender_btn = tk.Button(self.menu_frame, text=" 日歷　", compound=tk.LEFT, font=('宋體', 11 , 'bold'), image=self.calender_icon, bd=0, cursor="hand2",command=self.calendar_click)
         self.calender_btn.image = self.calender_icon_path
         self.calender_btn.place(x=7, y=47, width=90, height=32)
         self.menu_buttons.append(self.calender_btn)
 
-        self.text_btn = tk.Button(self.menu_frame, text=" 記事本", compound=tk.LEFT, font=('宋體', 11 , 'bold'), image=self.text_icon, fg=self.black, bd=0, cursor="hand2",command=self.text_click)
+        self.text_btn = tk.Button(self.menu_frame, text=" 記事本", compound=tk.LEFT, font=('宋體', 11 , 'bold'), image=self.text_icon, bd=0, cursor="hand2",command=self.text_click)
         self.text_btn.image = self.text_icon_path
         self.text_btn.place(x=7, y=87, width=90, height=32)
         self.menu_buttons.append(self.text_btn)
 
-        self.todo_btn = tk.Button(self.menu_frame, text=" 備忘錄", compound=tk.LEFT, font=('宋體', 11 , 'bold'), image=self.todo_icon, fg=self.black, bd=0, cursor="hand2",command=self.todo_click)
+        self.todo_btn = tk.Button(self.menu_frame, text=" 備忘錄", compound=tk.LEFT, font=('宋體', 11 , 'bold'), image=self.todo_icon, bd=0, cursor="hand2",command=self.todo_click)
         self.todo_btn.image = self.todo_icon_path
         self.todo_btn.place(x=7, y=127, width=90, height=32)
         self.menu_buttons.append(self.todo_btn)
@@ -147,7 +147,6 @@ class NoteApp:
             self.information_frame.config(bg=self.darkBG1)
             if self.menu_expanded:
                 self.mode_button.config(text=" 亮色模式")
-
         else:
             self.mode_button.config(image=self.setting_nighticon)
             self.menu_frame.config(bg=self.brightBG1)
@@ -156,22 +155,61 @@ class NoteApp:
             self.information_frame.config(bg=self.brightBG1)
             if self.menu_expanded:
                 self.mode_button.config(text=" 暗色模式")
-        
-        print(self.mode_day)
-        # delete content
+
+        # Update mode_day in other methods
+        for widget in self.content_frame.winfo_children():
+            if isinstance(widget, (CalendarFM, Todo)):
+                widget.toggle_mode(self.mode_day)
+
+            # Destroy old widgets and create new ones
         for widget in self.content_frame.winfo_children():
             widget.destroy()
-        if  self.calendarr == True:
+        if self.calendarr:
             self.calendar_app = CalendarFM(self.content_frame, mode_day=self.mode_day)
             self.calendar_app.toggle_mode(self.mode_day)
-        elif self.text == True:
-            self.text_app = TextEditor(self.content_frame)
-            # self.text_app.toggle_mode(self.mode_day)
-            # print(self.mode_day)
-        else:
+        elif self.todo:
             self.todo_app = Todo(self.content_frame, mode_day=self.mode_day)
             self.todo_app.toggle_mode(self.mode_day)
+        else:
+            self.mode_day = not self.mode_day
+            self.text_app = TextEditor(self.content_frame)
+            
+
+
         self.mode_day = not self.mode_day
+
+
+
+    def calendar_click(self):
+        self.calendarr = True
+        self.text = False
+        self.todo = False
+        for widget in self.content_frame.winfo_children():
+            widget.destroy()
+        self.calendar_app = CalendarFM(self.content_frame, mode_day=self.mode_day)
+        self.calendar_app.toggle_mode(not self.mode_day)
+
+    def text_click(self):
+        self.calendarr = False
+        self.text = True
+        self.todo = False
+        for widget in self.content_frame.winfo_children():
+            widget.destroy()
+        if self.text:
+            self.text_app = TextEditor(self.content_frame)  
+        # self.text_app.toggle_mode(not self.mode_day)
+
+    def todo_click(self):
+        self.calendarr = False
+        self.text = False
+        self.todo = True
+        for widget in self.content_frame.winfo_children():
+            widget.destroy()
+        self.todo_app = Todo(self.content_frame, mode_day=self.mode_day)
+        self.todo_app.toggle_mode(not self.mode_day)
+        print(self.mode_day)
+
+        
 # 
     def show_info(self, button_text):   #check button content
         print(f"Button clicked: {button_text}")
@@ -180,36 +218,6 @@ class NoteApp:
         image = Image.open(image_path)
         image = image.resize((width, height), Image.LANCZOS)
         return ImageTk.PhotoImage(image)
-# 
-    def calendar_click(self):
-        self.calendarr =True
-        self.text= False
-        self.todo = False
-        for widget in self.content_frame.winfo_children():
-            widget.destroy()   
-        self.calendar_app = CalendarFM(self.content_frame, mode_day=self.mode_day)
-        self.calendar_app.toggle_mode(not self.mode_day)
-        
-    
-    def text_click(self): 
-        self.calendarr =False
-        self.text= True
-        self.todo = False   
-        for widget in self.content_frame.winfo_children():
-            widget.destroy()
-        self.text_app = TextEditor(self.content_frame)
-        # self.text_app.toggle_mode(not self.mode_day)
-        
-    
-    def todo_click(self):
-        self.calendarr = False
-        self.text= False
-        self.todo = True
-        for widget in self.content_frame.winfo_children():
-            widget.destroy()
-        self.todo_app = Todo(self.content_frame, mode_day=self.mode_day)
-        self.todo_app.toggle_mode(not self.mode_day)
-        
     
 if __name__ == "__main__":
     root = tk.Tk()

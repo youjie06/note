@@ -9,9 +9,10 @@ from tkcalendar import DateEntry
 class Todo:
     def __init__(self, root, mode_day=False):
         self.root = root
+        self.mode_day = mode_day
         self.tasks = []
         self.reminders = []
-
+    
         #color
         self.white="#ffffff"
         self.black="#000000"
@@ -89,10 +90,10 @@ class Todo:
     def toggle_mode(self, mode_day):
         # change color
         self.mode_day = mode_day
-        if self.mode_day:
+        if self.mode_day: 
             self.currentbg_color = self.darkBG2   
             self.currentfg_color = self.white  
-            self.currentactive_color = self.darkactive 
+            self.currentactive_color = self.darkactive
         else:
             self.currentbg_color = self.brightBG2
             self.currentfg_color = self.black
@@ -104,7 +105,8 @@ class Todo:
         self.second_semicolon.config(bg=self.currentbg_color)
         self.title_txt.config(bg=self.currentbg_color,fg=self.currentfg_color)
         self.time_pick.config(bg=self.currentbg_color,fg=self.currentfg_color)
-        # print(mode_day)
+        # print(self.mode_day)
+        
         
     # Function to update the listbox with tasks
     def update_listbox(self):
