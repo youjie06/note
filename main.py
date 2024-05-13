@@ -44,8 +44,12 @@ class NoteApp:
         self.calendarr = True
         
         # Information Frame
-        self.information_frame = tk.Frame(self.root, bd=2, bg=self.darkBG1)
+        self.information_frame = tk.Frame(self.root, bd=0, bg=self.darkBG1)
         self.information_frame.place(x=900, y=0, width=300, height=768)
+        self.DoList = tk.Frame(self.information_frame, bg=self.darkBG1)
+        self.DoList.place(x=0, y=0, width=300, height=768)
+
+        self.load_tasks()
         
         # Icon location
         self.calender_icon_path = Image.open("icon/daily-calendar (1).png").resize((20, 20))
@@ -178,8 +182,6 @@ class NoteApp:
 
         self.mode_day = not self.mode_day
 
-
-
     def calendar_click(self):
         self.calendarr = True
         self.text = False
@@ -209,7 +211,18 @@ class NoteApp:
         self.todo_app.toggle_mode(not self.mode_day)
         print(self.mode_day)
 
-        
+    def load_tasks(self):
+    # 讀取.txt檔案並顯示內容
+        try:
+            with open("tasks.txt", "r", encoding='utf-8') as file:
+                tasks = file.readlines()
+                for i, task in enumerate(tasks):
+                    task = task.strip().split(",")
+                    task_text = f"{task[0]} {task[1]} {task[2]}"
+                    label = tk.Label(self.DoList, text=task_text, bg=self.darkBG2, fg=self.white, font=("宋體", 18))
+                    label.grid(row=i, column=0, sticky="w", padx=10, pady=10)
+        except FileNotFoundError:
+            print("找不到檔案")
 # 
     def show_info(self, button_text):   #check button content
         print(f"Button clicked: {button_text}")
