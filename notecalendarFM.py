@@ -144,6 +144,7 @@ class CalendarFM:
     def calendar_btnclick(self, date):
         # This method is called when a button in the calendar is clicked
         formatted_date = "{}/{:02d}/{:02d}".format(self.year.get(), self.month.get(), date)
+        print("Button clicked for date:", formatted_date)
         return formatted_date
         #print("Button clicked for date:", formatted_date)
 
